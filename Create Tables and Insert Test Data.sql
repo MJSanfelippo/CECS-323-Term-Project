@@ -6,7 +6,7 @@ CREATE TABLE IF NOT EXISTS project(
 	projectCode	INT(11)	NOT NULL,
 	startDate	DATE		NOT NULL,
 	endDate		DATE		NULL,
-    name VARCHAR(50) NOT NULL,
+    	name VARCHAR(50) NOT NULL,
 	PRIMARY KEY(projectCode)
 );
 
@@ -49,7 +49,7 @@ CREATE TABLE IF NOT EXISTS task(
 	userStoryID	INT(11) 	NOT NULL,
 	task	VARCHAR(30) NOT NULL,
 	PRIMARY KEY(taskID),
-    FOREIGN KEY(userStoryID) REFERENCES userStory(userStoryID)
+   	FOREIGN KEY(userStoryID) REFERENCES userStory(userStoryID)
 );
 
 CREATE TABLE IF NOT EXISTS userStory(
@@ -72,7 +72,7 @@ CREATE TABLE IF NOT EXISTS sprint(
 	teamNum		INT(12)	NOT NULL,
 	PRIMARY KEY(projectCode, sprintNum),
 	FOREIGN KEY(teamNum) 	REFERENCES employee_scrumTeam(teamNum),
-    FOREIGN KEY(projectCode) REFERENCES project(projectCode)
+        FOREIGN KEY(projectCode) REFERENCES project(projectCode)
 );
 
 CREATE TABLE IF NOT EXISTS sprint_backlog(
@@ -80,7 +80,7 @@ CREATE TABLE IF NOT EXISTS sprint_backlog(
 	projectCode INT(11) NOT NULL,
 	sprint_priority	INT(11) NOT NULL,
 	PRIMARY KEY(sprintNum),
-    FOREIGN KEY(projectCode, sprintNum) REFERENCES sprint(projectCode, sprintNum)
+        FOREIGN KEY(projectCode, sprintNum) REFERENCES sprint(projectCode, sprintNum)
 );
 
 CREATE TABLE IF NOT EXISTS userSprintStory(
@@ -103,8 +103,8 @@ CREATE TABLE IF NOT EXISTS userSprintStory(
 	PRIMARY KEY(projectCode),
 	FOREIGN KEY(projectCode) REFERENCES sprint(projectCode),
 	FOREIGN KEY(userStoryID) REFERENCES userStory(userStoryID),
-    FOREIGN KEY(projectCode) REFERENCES project(projectCode),
-    FOREIGN KEY(sprintNum) REFERENCES sprint_backlog(sprintNum)
+        FOREIGN KEY(projectCode) REFERENCES project(projectCode),
+        FOREIGN KEY(sprintNum) REFERENCES sprint_backlog(sprintNum)
  );
 
 
