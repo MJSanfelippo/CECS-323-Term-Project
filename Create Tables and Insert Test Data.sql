@@ -129,7 +129,7 @@ CREATE TABLE IF NOT EXISTS stakeholder (
 
 CREATE TABLE IF NOT EXISTS stakeholder_project (
 	stakeholderID int,
-	projectCode varchar(30),
+	projectCode int,
 	interestLevel int
 );
 
