@@ -5,7 +5,7 @@ USE Dummy323;
 CREATE TABLE IF NOT EXISTS project(
 	projectCode	INT(11)	NOT NULL,
 	startDate	DATE		NOT NULL,
-	endDate		DATE		NULL,
+	deadline		DATE		NOT NULL,
     	name VARCHAR(50) NOT NULL,
 	PRIMARY KEY(projectCode)
 );
