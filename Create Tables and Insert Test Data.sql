@@ -123,14 +123,14 @@ CREATE TABLE IF NOT EXISTS employee_project(
 CREATE TABLE IF NOT EXISTS stakeholder (
 	stakeholderID int,
 	firstName varchar(50),
-	lastName varchar(50),
-	type varchar(30)
+	lastName varchar(50)
 );
 
 CREATE TABLE IF NOT EXISTS stakeholder_project (
 	stakeholderID int,
 	projectCode int,
-	interestLevel int
+	interestLevel int,
+	type varchar(50)
 );
 
 
