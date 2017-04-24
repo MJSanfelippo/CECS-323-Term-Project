@@ -86,7 +86,6 @@ CREATE TABLE IF NOT EXISTS sprint(
 CREATE TABLE IF NOT EXISTS project_backlog (
 	projectCode INT(11) 		NOT NULL,
 	userStoryID	INT(11)		NOT NULL,
-	sprintNum	INT(11)		NOT NULL,
 	name		VARCHAR(100)	NOT NULL,
 	createDate 	DATE		NOT NULL,
 	PRIMARY KEY(projectCode),
