@@ -76,11 +76,10 @@ CREATE TABLE IF NOT EXISTS sprint(
 );
 
 
+
 CREATE TABLE IF NOT EXISTS sprint_backlog(
 	userStoryID	INT(11)		NOT NULL,
 	sprintNum	INT(11)		NOT NULL,
-	startDate	DATE		NOT NULL,
-	endDate		DATE,
 	progress	VARCHAR(30) NOT NULL,
 	priority	INT(11)		NOT NULL,
 	PRIMARY KEY(sprintNum, userStoryID),
@@ -153,8 +152,6 @@ INSERT INTO userStory VALUES (1, 'Software Developer', 'be able to insert data',
 
 INSERT INTO task VALUES (1, 'Design the database');
 
-INSERT INTO sprint_backlog VALUES (1,1,5);
-
-INSERT INTO userSprintStory VALUES (1,1, '2017-04-22', NULL, 'Started'); 
+INSERT INTO sprint_backlog VALUES (1,1,'Started', 5);
 
 INSERT INTO project_backlog VALUES (1, 1, 1, 'Create and populate the database', '2017-04-22');
