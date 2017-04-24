@@ -63,7 +63,7 @@ public class Stakeholder {
 			e.printStackTrace();
 		}
 	}
-	public void deleteStakeholder(Connection conn){
+	public static void deleteStakeholder(Connection conn){
 		System.out.println("Please enter the id of the stakeholder you'd like to delete: ");
 		int id = Validator.checkInt();
 		String sql = "DELETE FROM stakeholder WHERE stakeholder.id = ?";
@@ -75,7 +75,7 @@ public class Stakeholder {
 			ex.printStackTrace();
 		}
 	}
-	public int showUpdateMenu(){
+	public static int showUpdateMenu(){
 		System.out.println("What would you like to update?");
 		System.out.println("1. Stakeholder ID");
 		System.out.println("2. First Name");
@@ -83,7 +83,7 @@ public class Stakeholder {
 		int choice = Validator.checkIntRange(1, 3);
 		return choice;
 	}
-	public void updateStakeholder(Connection conn){
+	public static void updateStakeholder(Connection conn){
 		@SuppressWarnings("resource")
 		Scanner in = new Scanner(System.in);
 		System.out.println("Please enter the stakeholder's ID that you'd like to update: ");

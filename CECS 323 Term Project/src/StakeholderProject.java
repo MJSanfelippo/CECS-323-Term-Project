@@ -18,6 +18,72 @@ public class StakeholderProject {
 		this.interestLevel = interestLevel;
 		this.type = type;
 	}
+	public static int showUpdateMenu(){
+		System.out.println("What would you like to update?");
+		System.out.println("1. Interest level");
+		System.out.println("2. Stakeholder type");
+		int choice = Validator.checkIntRange(1,2);
+		return choice;
+	}
+	public static void updateStakeholderProject(Connection conn){
+		@SuppressWarnings("resource")
+		Scanner in = new Scanner(System.in);
+		System.out.println("Please enter the stakeholder's ID: ");
+		int id = Validator.checkInt();
+		System.out.println("Please enter the project code: ");
+		int projectCode = Validator.checkInt();
+		String sql = "";
+		int choice = showUpdateMenu();
+		switch(choice){
+		case 1:
+			System.out.println("What is the stakeholder's new interest level in this project? (1-10)");
+			int interestLevel = Validator.checkIntRange(1, 10);
+			sql = "UPDATE stakeholder_project SET stakeholder_project.interestLevel = ? WHERE stakeholder_project.stakeholderID = ? AND stakeholder_project.projectCode = ?;";
+			try {
+				PreparedStatement ps = conn.prepareStatement(sql);
+				ps.setInt(1, interestLevel);
+				ps.setInt(2, id);
+				ps.setInt(3, projectCode);
+				ps.execute();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			break;
+		case 2:
+			System.out.println("What is the stakeholder's new type for this project?");
+			String type = in.nextLine();
+			sql = "UPDATE stakeholder_project SET stakeholder_project.type = ? WHERE stakeholder_project.stakeholderID = ? AND stakeholder_project.projectCode = ?;";
+			try {
+				PreparedStatement ps = conn.prepareStatement(sql);
+				ps.setString(1, type);
+				ps.setInt(2, id);
+				ps.setInt(3, projectCode);
+				ps.execute();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			break;
+			
+			
+		}
+	}
+	public static void deleteStakeholderProject(Connection conn){
+		System.out.println("Please enter the id of the stakeholder you'd like to delete: ");
+		int id = Validator.checkInt();
+		System.out.println("Please enter the project code: ");
+		int projectCode = Validator.checkInt();
+		String sql = "DELETE FROM stakeholder_project WHERE stakeholder_project.stakeholderID = ? AND stakeholder_project.projectCode = ?";
+		try{
+			PreparedStatement ps = conn.prepareStatement(sql);
+			ps.setInt(1, id);
+			ps.setInt(2, projectCode);
+			ps.execute();
+		} catch(SQLException ex){
+			ex.printStackTrace();
+		}
+	}
 	public static void listAllStakeholderProjects(Connection conn){
 		System.out.println("Please enter a project code to view all stakeholders for that project");
 		int projectCode = Validator.checkInt();

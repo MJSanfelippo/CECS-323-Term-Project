@@ -16,13 +16,16 @@ public class ProjectBacklog {
 		this.name = name;
 		this.creationDate = creationDate;
 	}
-	public void deleteProjectBacklog(Connection conn){
-		System.out.println("Please enter the project code of the project in the backlog you'd like to delete: ");
+	public static void deleteUserStoryFromProjectBacklog(Connection conn){
+		System.out.println("Please enter the project code of the project in the backlog: ");
 		int projectCode = Validator.checkInt();
-		String sql = "DELETE FROM project_backlog WHERE project_backlog.projectCode = ?;";
+		System.out.println("Please enter the user story ID that you'd like to delete from the project backlog: ");
+		int userStoryID = Validator.checkInt();
+		String sql = "DELETE FROM project_backlog WHERE project_backlog.projectCode = ? AND userStoryID = ?;";
 		try{
 			PreparedStatement ps = conn.prepareStatement(sql);
 			ps.setInt(1, projectCode);
+			ps.setInt(2, userStoryID);
 			ps.execute();
 		} catch(SQLException ex){
 			ex.printStackTrace();

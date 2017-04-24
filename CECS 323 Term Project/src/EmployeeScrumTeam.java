@@ -16,7 +16,7 @@ public class EmployeeScrumTeam {
 		this.teamNumber = teamNumber;
 		this.isTeamLead = isTeamLead;
 	}
-	public void deleteEmployeeFromTeam(Connection conn){
+	public static void deleteEmployeeFromTeam(Connection conn){
 		System.out.println("Please enter the team number for the team from which you'd like to remove an employee: ");
 		int teamNumber = Validator.checkInt();
 		System.out.println("Please enter the ID of the employee you'd like to remove from this team: ");

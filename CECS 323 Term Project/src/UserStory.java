@@ -5,11 +5,11 @@ import java.util.Scanner;
 
 public class UserStory {
 
-	int userStoryID;
-	String asA;
-	String iWantTo;
-	String becauseSoThat;
-	String type;
+	private int userStoryID;
+	private String asA;
+	private String iWantTo;
+	private String becauseSoThat;
+	private String type;
 	public UserStory(int userStoryID, String asA, String iWantTo, String becauseSoThat, String type) {
 		this.userStoryID = userStoryID;
 		this.asA = asA;
