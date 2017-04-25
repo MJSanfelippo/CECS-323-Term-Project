@@ -4,7 +4,6 @@ This is primarily intended for use by my team.
 
 
 TODO:
-- More test data
-- Documentation
+- Maybe even more test data?
 - Maybe add more functionality for projects? It's not in the requirements, but would be easy to do
 - SQL trigger to prevent them from adding a developer to an already active sprint
