@@ -10,7 +10,6 @@ import java.sql.PreparedStatement;
 
 public class Main {
 
-	
 	private String dbURL = "jdbc:mysql://192.168.62.130:3306/Dummy323?" + "user=cecs323b&password=cecs323";
 	/**
 	 * the connection to the database, initially set to null
@@ -60,7 +59,7 @@ public class Main {
 			case 8:
 				Sprint.listAllSprints(conn);
 			case 9:
-				//TODO
+				listAllDevelopersInASprint();
 				break;
 			case 10:
 				running = false;
@@ -206,17 +205,7 @@ public class Main {
 		Sprint.listAllSprints(conn);
 	}
 	public void listAllDevelopersInASprint(){
-		// I have no idea why or how this works, but it does for now... maybe have someone come up with a better way?
-		/*
-		 *  SELECT employee.employeeID, employee.firstName, employee.lastName FROM employee
-			INNER JOIN employee_scrumTeam
-			ON employee.employeeID=employee_scrumTeam.employeeID 
-			INNER JOIN scrum_team 
-			ON employee_scrumTeam.teamNum=scrum_team.teamNum 
-			INNER JOIN sprint 
-			ON scrum_team.teamNum=sprint.teamNum
-			GROUP BY employee.employeeID;
-		 */
+		Sprint.listAllDevelopersOnSprint(conn);
 	}
 	public void runUserStoryToSprintBacklog(int choice){
 		switch(choice){

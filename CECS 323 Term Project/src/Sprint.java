@@ -47,6 +47,31 @@ public class Sprint {
 			e.printStackTrace();
 		}
 	}
+	public static void listAllDevelopersOnSprint(Connection conn){
+		System.out.println("Please enter what sprint number you'd like to search for: ");
+		int sprintNum = Validator.checkInt();
+		String sql = "SELECT employee.employeeID, CONCAT(employee.firstName, ' ', employee.lastName) AS name FROM employee INNER JOIN (SELECT * FROM employee_scrumTeam WHERE EXISTS "
+				+ "(SELECT * FROM sprint WHERE sprintNum=? AND sprint.teamNum=employee_scrumTeam.teamNum)) AS employee_scrumTeam USING (employeeID);";
+		try{
+			PreparedStatement ps = conn.prepareStatement(sql);
+			ps.setInt(1,sprintNum);
+			ResultSet results = ps.executeQuery();
+			ResultSetMetaData rsmd = results.getMetaData();
+			int numCols = rsmd.getColumnCount();
+			for (int i = 1; i <= numCols; i++) {
+				System.out.print("\t" + rsmd.getColumnLabel(i) + "\t\t");
+			}
+			System.out.println(
+					"\n-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------");
+			while (results.next()) {
+				int employeeID = results.getInt(1);
+				String name = results.getString(2);
+				System.out.format("%15d%30s\n", employeeID, name);
+			}
+		} catch(SQLException e){
+			e.printStackTrace();
+		}
+	}
 	public static Sprint getSprintInsertInformation() {
 		System.out.println("Please enter the sprint number: ");
 		int sprintNum = Validator.checkInt();
