@@ -6,14 +6,41 @@ import java.sql.SQLException;
 import java.util.Scanner;
 
 public class Sprint {
-
+	
+	/**
+	 * the sprint's number, or id
+	 */
 	int sprintNum;
+	/**
+	 * the project's id
+	 */
 	int projectCode;
+	/**
+	 * whether the sprint is active 
+	 */
 	boolean active;
+	/**
+	 * the start date of the sprint
+	 */
 	String startDate;
+	/** 
+	 * the end date of the sprint
+	 */
 	String endDate;
+	/**
+	 * the id of the team that has been assigned to this sprint
+	 */
 	int teamNum;
-
+	
+	/**
+	 * 
+	 * @param sprintNum the sprint's id
+	 * @param projectCode the project's id
+	 * @param active whether this sprint is active
+	 * @param startDate the start date
+	 * @param endDate the end date
+	 * @param teamNum the team id assigned to this sprint
+	 */
 	public Sprint(int sprintNum, int projectCode, boolean active, String startDate, String endDate, int teamNum) {
 		this.sprintNum = sprintNum;
 		this.projectCode = projectCode;
@@ -22,6 +49,10 @@ public class Sprint {
 		this.endDate = endDate;
 		this.teamNum = teamNum;
 	}
+	/**
+	 * this will list all sprints
+	 * @param conn the connection to the database
+	 */
 	public static void listAllSprints(Connection conn){
 		String sql = "SELECT * FROM sprint";
 		try{
@@ -47,11 +78,15 @@ public class Sprint {
 			e.printStackTrace();
 		}
 	}
+	/**
+	 * this will list all developers on a specific sprint
+	 * @param conn the connection to the database
+	 */
 	public static void listAllDevelopersOnSprint(Connection conn){
 		System.out.println("Please enter what sprint number you'd like to search for: ");
 		int sprintNum = Validator.checkInt();
 		String sql = "SELECT employee.employeeID, CONCAT(employee.firstName, ' ', employee.lastName) AS name FROM employee INNER JOIN (SELECT * FROM employee_scrumTeam WHERE EXISTS "
-				+ "(SELECT * FROM sprint WHERE sprintNum=? AND sprint.teamNum=employee_scrumTeam.teamNum)) AS employee_scrumTeam USING (employeeID);";
+				+ "(SELECT * FROM sprint WHERE sprintNum=? AND sprint.teamNum=employee_scrumTeam.teamNum)) AS employee_scrumTeam USING (employeeID);"; // I'm sorry
 		try{
 			PreparedStatement ps = conn.prepareStatement(sql);
 			ps.setInt(1,sprintNum);
@@ -72,6 +107,10 @@ public class Sprint {
 			e.printStackTrace();
 		}
 	}
+	/**
+	 * this will get all info from the user to create a new sprint
+	 * @return the sprint containing all info about it
+	 */
 	public static Sprint getSprintInsertInformation() {
 		System.out.println("Please enter the sprint number: ");
 		int sprintNum = Validator.checkInt();
@@ -87,6 +126,10 @@ public class Sprint {
 		int teamNum = Validator.checkInt();
 		return new Sprint(sprintNum, projectCode, active, startDate, endDate, teamNum);
 	}
+	/**
+	 * inserts a new sprint into the database
+	 * @param conn the connection to the database
+	 */
 	public void insertNewSprint(Connection conn) {
 		String sql = "INSERT INTO sprint VALUES (?,?,?,?,?,?);";
 		try {

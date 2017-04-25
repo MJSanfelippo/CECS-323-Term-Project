@@ -7,17 +7,40 @@ import java.util.Scanner;
 
 public class StakeholderProject {
 	
+	/**
+	 * the id of the stakeholder
+	 */
 	int stakeholderID;
+	/**
+	 * the project id
+	 */
 	int projectCode;
+	/**
+	 * the interest level of the stakeholder in the project
+	 */
 	int interestLevel;
+	/**
+	 * the type of stakeholder for this project
+	 */
 	String type;
 	
+	/**
+	 * 
+	 * @param stakeholderID the id of the stakeholder
+	 * @param projectCode the id of the project
+	 * @param interestLevel the interest level of of the stakeholder in this project
+	 * @param type the type of stakeholder for this project
+	 */
 	public StakeholderProject (int stakeholderID, int projectCode, int interestLevel, String type){
 		this.stakeholderID = stakeholderID;
 		this.projectCode = projectCode;
 		this.interestLevel = interestLevel;
 		this.type = type;
 	}
+	/**
+	 * the menu to allow the update for the stakeholders in the projects
+	 * @return the user's choice as to what to update
+	 */
 	public static int showUpdateMenu(){
 		System.out.println("What would you like to update?");
 		System.out.println("1. Interest level");
@@ -25,6 +48,10 @@ public class StakeholderProject {
 		int choice = Validator.checkIntRange(1,2);
 		return choice;
 	}
+	/**
+	 * updates a stakeholder based off their id, the project id and what needs to be updated
+	 * @param conn the connection to the database
+	 */
 	public static void updateStakeholderProject(Connection conn){
 		@SuppressWarnings("resource")
 		Scanner in = new Scanner(System.in);
@@ -69,6 +96,10 @@ public class StakeholderProject {
 			
 		}
 	}
+	/**
+	 * Deletes a stakeholder from a project based off of the stakeholder's id and the project's id
+	 * @param conn the connection to the database
+	 */
 	public static void deleteStakeholderProject(Connection conn){
 		System.out.println("Please enter the id of the stakeholder you'd like to delete: ");
 		int id = Validator.checkInt();
@@ -84,6 +115,10 @@ public class StakeholderProject {
 			ex.printStackTrace();
 		}
 	}
+	/**
+	 * Lists all stakeholders for a certain project
+	 * @param conn the connection to the database
+	 */
 	public static void listAllStakeholderProjects(Connection conn){
 		System.out.println("Please enter a project code to view all stakeholders for that project");
 		int projectCode = Validator.checkInt();
@@ -112,6 +147,10 @@ public class StakeholderProject {
 			e.printStackTrace();
 		}
 	}
+	/**
+	 * this will get info from the user to insert a stakeholder into a project
+	 * @return a new stakeholder_project containing all info necessary to be inserted into the database
+	 */
 	public static StakeholderProject getStakeholderProjectInsertInformation() {
 		@SuppressWarnings("resource")
 		Scanner in = new Scanner(System.in);
@@ -125,7 +164,10 @@ public class StakeholderProject {
 		String type = in.nextLine();
 		return new StakeholderProject(id, projectCode, interestLevel, type);
 	}
-	
+	/**
+	 * inserts a stakeholder and project into the assocation table in the datbase
+	 * @param conn the connection to the database
+	 */
 	public void insertNewStakeholderProject(Connection conn) {
 		String sql = "INSERT INTO stakeholder_project VALUES (?,?,?,?);";
 		try {

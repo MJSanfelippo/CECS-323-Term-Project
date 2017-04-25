@@ -6,16 +6,35 @@ import java.sql.SQLException;
 import java.util.Scanner;
 
 public class EmployeeScrumTeam {
-
+	
+	/**
+	 * the employee's id
+	 */
 	int employeeID;
+	/**
+	 * the team's id
+	 */
 	int teamNumber;
+	/**
+	 * whether the employee is the leader of this team
+	 */
 	boolean isTeamLead;
 	
+	/**
+	 * 
+	 * @param employeeID the id of the employee
+	 * @param teamNumber the id of the team
+	 * @param isTeamLead whether the employee is a leader of this team
+	 */
 	public EmployeeScrumTeam(int employeeID, int teamNumber, boolean isTeamLead){
 		this.employeeID = employeeID;
 		this.teamNumber = teamNumber;
 		this.isTeamLead = isTeamLead;
 	}
+	/**
+	 * deletes an employee from a team based off of their id and the id of the team they're being removed from
+	 * @param conn the connection to the database
+	 */
 	public static void deleteEmployeeFromTeam(Connection conn){
 		System.out.println("Please enter the team number for the team from which you'd like to remove an employee: ");
 		int teamNumber = Validator.checkInt();
@@ -32,7 +51,11 @@ public class EmployeeScrumTeam {
 		}
 		
 	}
-	public void insertNewStakeholderProject(Connection conn) {
+	/**
+	 * this inserts a new employee into a scrum team
+	 * @param conn the connection to the database
+	 */
+	public void insertNewEmployeeScrumTeam(Connection conn) {
 		String sql = "INSERT INTO employee_scrumTeam VALUES (?,?,?);";
 		try {
 			PreparedStatement ps = conn.prepareStatement(sql);
@@ -44,6 +67,10 @@ public class EmployeeScrumTeam {
 			e.printStackTrace();
 		}
 	}
+	/**
+	 * this allows the user to enter the employee's id, the team's id and whether the employee is a leader of this team and creates a new object containing this info
+	 * @return
+	 */
 	public static EmployeeScrumTeam getEmployeeScrumTeamInsertInformation() {
 		@SuppressWarnings("resource")
 		Scanner in = new Scanner(System.in);
@@ -55,6 +82,10 @@ public class EmployeeScrumTeam {
 		boolean isTeamLead = Validator.validateBoolean();
 		return new EmployeeScrumTeam(employeeID, teamNumber, isTeamLead);
 	}
+	/**
+	 * this will list all employees that are on scrum teams
+	 * @param conn
+	 */
 	public static void listAllEmployeeScrumTeam(Connection conn){
 		String sql = "SELECT * FROM employee_scrumTeam";
 		try{

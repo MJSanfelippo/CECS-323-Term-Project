@@ -10,6 +10,9 @@ import java.sql.PreparedStatement;
 
 public class Main {
 
+	/**
+	 * The url to connect to the database
+	 */
 	private String dbURL = "jdbc:mysql://192.168.62.130:3306/Dummy323?" + "user=cecs323b&password=cecs323";
 	/**
 	 * the connection to the database, initially set to null
@@ -19,14 +22,15 @@ public class Main {
 	 * the statement used to query the database
 	 */
 	private Statement statement = null;
-	
-	public static void main(String[] args) throws SQLException, IOException{
+	/**
+	 * 
+	 * @param args the command-line arguments (none)
+	 */
+	public static void main(String[] args){
 		new Main().run();
 	}
 	/**
-	 * This will create the connection to the database
-	 * @throws SQLException 
-	 * @throws IOException 
+	 * This will create the connection, display the main menu and handle whatever choice the user chooses
 	 */
 	public void run(){
 		createConnection();
@@ -70,17 +74,21 @@ public class Main {
 		}
 		shutDown();
 	}
+	/**
+	 * This will run whatever choice the user made for crud operations with user stories to the project backlog
+	 * @param choice the user's choice
+	 */
 	public void runCRUDUserStoriesToProjectBackLog(int choice){
 		switch(choice){
 		case 1:
 			UserStory us = UserStory.getUserStoryInsertInformation();
 			us.insertNewUserStory(conn);
 			ProjectBacklog pb = ProjectBacklog.getProjectBacklogInsertInformation();
-			pb.insertNewUserStory(conn);
+			pb.insertNewProjectBacklog(conn);
 			break;
 		case 2:
 			pb = ProjectBacklog.getProjectBacklogInsertInformation();
-			pb.insertNewUserStory(conn);
+			pb.insertNewProjectBacklog(conn);
 			break;
 		case 3:
 			ProjectBacklog.deleteUserStoryFromProjectBacklog(conn);
@@ -89,18 +97,27 @@ public class Main {
 			break;
 		}
 	}
+	/**
+	 * This will display the menu for crud operations for user stories to the project backlog
+	 * @return the user's choice
+	 */
 	public int displayCRUDUserStoriesToProjectBacklogMenu(){
 		System.out.println("1. Add a new user story to the project backlog");
 		System.out.println("2. Add an existing user story to the project backlog");
 		System.out.println("3. Delete a user story from the project backlog");
-		int choice = Validator.checkIntRange(1, 3);
+		System.out.println("4. Back to main menu");
+		int choice = Validator.checkIntRange(1, 4);
 		return choice;
 	}
+	/**
+	 * This will run whatever choice the user chose for crud operations for scrum team members
+	 * @param choice the user's choice
+	 */
 	public void runCRUDScrumTeamMembers(int choice){
 		switch(choice){
 		case 1:
 			EmployeeScrumTeam est = EmployeeScrumTeam.getEmployeeScrumTeamInsertInformation();
-			est.insertNewStakeholderProject(conn);
+			est.insertNewEmployeeScrumTeam(conn);
 			break;
 		case 2:
 			EmployeeScrumTeam.deleteEmployeeFromTeam(conn);
@@ -113,6 +130,10 @@ public class Main {
 			break;
 		}
 	}
+	/**
+	 * This will run whatever choice the user chose for crud operations on stakeholders
+	 * @param choice the user's choice
+	 */
 	public void runCRUDStakeholder(int choice){
 		switch(choice){
 		case 1:
@@ -142,6 +163,10 @@ public class Main {
 			break;
 		}
 	}
+	/**
+	 * This will display the menu to allow the user to do crud operations with stakeholders
+	 * @return the user's choice
+	 */
 	public int displayCRUDStakeholdersMenu(){
 		System.out.println("1. Add a new stakeholder");
 		System.out.println("2. List all stakeholders");
@@ -150,20 +175,33 @@ public class Main {
 		System.out.println("5. Add an existing stakeholder to a project");
 		System.out.println("6. Delete an existing stakeholder from a project");
 		System.out.println("7. Update an existing stakeholder's interest or position in a project");
-		int choice = Validator.checkIntRange(1,7);
+		System.out.println("8. Back to main menu");
+		int choice = Validator.checkIntRange(1,8);
 		return choice;
 	}
+	/**
+	 * This will display the menu for the user to choose what crud operations they want to run for scrum teams
+	 * @return the user's choice
+	 */
 	public int displayCRUDScrumTeamMembersMenu(){
 		System.out.println("1. Add an employee to a scrum team");
 		System.out.println("2. Remove an employee from a scrum team");
 		System.out.println("3. Create new scrum team");
-		int choice = Validator.checkIntRange(1, 3);
+		System.out.println("4. Back to main menu");
+		int choice = Validator.checkIntRange(1, 4);
 		return choice;
 	}
+	/**
+	 * This will create a new sprint
+	 */
 	public void createSprint(){
 		Sprint s = Sprint.getSprintInsertInformation();
 		s.insertNewSprint(conn);
 	}
+	/**
+	 * This will run whatever choice the user chose
+	 * @param choice the choice the user chose in the menu
+	 */
 	public void runCRUDOperationsSprintBacklog(int choice){
 		switch(choice){
 		case 1:
@@ -189,24 +227,42 @@ public class Main {
 			break;
 		}
 	}
+	/**
+	 * This will display all crud operations available for the user for the sprint backlog
+	 * @return the user's choice
+	 */
 	public int displayCRUDOperationsSprintBacklogMenu(){
 		System.out.println("1. Add new user story to sprint backlog");
 		System.out.println("2. Add existing user story to sprint backlog");
 		System.out.println("3. Update the user stories in the sprint backlog");
 		System.out.println("4. Delete a user story in the sprint backlog");
 		System.out.println("5. List all user stories for a specific sprint");
-		int choice = Validator.checkIntRange(1, 5);
+		System.out.println("6. Back to main menu");
+		int choice = Validator.checkIntRange(1, 6);
 		return choice;
 	}
+	/**
+	 * This will list every developer
+	 */
 	public void listAllDevelopers(){
 		Employee.listEmployee(conn);
 	}
+	/**
+	 * This will list every sprint
+	 */
 	public void listAllSprints(){
 		Sprint.listAllSprints(conn);
 	}
+	/**
+	 * This will list all developers in a specific sprint
+	 */
 	public void listAllDevelopersInASprint(){
 		Sprint.listAllDevelopersOnSprint(conn);
 	}
+	/**
+	 * This will run whatever option the user chose
+	 * @param choice the user's choice
+	 */
 	public void runUserStoryToSprintBacklog(int choice){
 		switch(choice){
 		case 1:
@@ -223,12 +279,21 @@ public class Main {
 			break;
 		}
 	}
+	/**
+	 * This will display the menu to allow the user to add user stories to the sprint backlog
+	 * @return the user's choice
+	 */
 	public int displayUserStoryToSprintBacklogMenu(){
 		System.out.println("1. Add a new user story to the sprint backlog");
 		System.out.println("2. Add an existing user story to the sprint backlog");
-		int choice = Validator.checkIntRange(1, 2);
+		System.out.println("3. Back to main menu");
+		int choice = Validator.checkIntRange(1, 3);
 		return choice;
 	}
+	/**
+	 * The main menu of the program
+	 * @return the user's choice
+	 */
 	public int displayMainMenu(){
 		System.out.println("1. CRUD Operations for Stakeholders");
 		System.out.println("2. CRUD Operations for sprint team members");
@@ -246,7 +311,11 @@ public class Main {
 	public Connection getConnection(){
 		return conn;
 	}
-	
+	/**
+	 * This is a function to read all ~43,000 different zip codes into the zipCode table
+	 * @throws SQLException throw any sql exceptions because it works every time
+	 * @throws IOException throw any io exceptions because they will never be caught
+	 */
 	public void insertZips() throws SQLException, IOException{
 		BufferedReader br = new BufferedReader(new FileReader("Zipcode Database.csv"));
 		br.readLine();
@@ -262,6 +331,9 @@ public class Main {
 		System.out.println("Success!");
 		
 	}
+	/**
+	 * This will create the connection to the database
+	 */
 	private void createConnection() {
 		try {
 			conn = DriverManager.getConnection(dbURL);

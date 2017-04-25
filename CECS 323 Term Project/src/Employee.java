@@ -7,13 +7,40 @@ import java.util.Scanner;
 
 public class Employee {
 
+	/**
+	 * the employee's id
+	 */
 	private int employeeID;
+	/**
+	 * the first name of the employee
+	 */
 	private String firstName;
+	/** 
+	 * the last name of the employee
+	 */
 	private String lastName;
+	/**
+	 * the employee's title
+	 */
 	private String title;
+	/**
+	 * the address of the employee
+	 */
 	private String address;
+	/**
+	 * the zip code of the employee
+	 */
 	private int zip;
 	
+	/**
+	 * 
+	 * @param employeeID the employee's id
+	 * @param firstName the first name of the employee
+	 * @param lastName the last name of the employee
+	 * @param title the title of the employee
+	 * @param address the address of the employee
+	 * @param zip the zip code of the employee
+	 */
 	public Employee(int employeeID, String firstName, String lastName, String title, String address, int zip) {
 		super();
 		this.employeeID = employeeID;
@@ -23,6 +50,10 @@ public class Employee {
 		this.address = address;
 		this.zip = zip;
 	}
+	/**
+	 * lists all employees that are software engineers or developers
+	 * @param conn the connection to the database
+	 */
 	public static void listEmployee(Connection conn){
 		String sql = "SELECT employeeID, CONCAT(firstName, ' ', lastName) AS name, address, employee.zip, city, st FROM employee INNER JOIN zipCode ON employee.zip = zipCode.zip "
 				+ "WHERE title = 'Software Engineer' OR title = 'Software Developer' OR title = 'Developer';";
@@ -49,6 +80,10 @@ public class Employee {
 			e.printStackTrace();
 		}
 	}
+	/**
+	 * gets the info from the user for a new employee
+	 * @return a new employee containing the info the employee entered
+	 */
 	public static Employee getEmployeeInsertInformation() {
 		@SuppressWarnings("resource")
 		Scanner in = new Scanner(System.in);
@@ -66,7 +101,11 @@ public class Employee {
 		int zip = Validator.checkInt();
 		return new Employee(employeeID, firstName, lastName, title, address, zip);
 	}
-	public void insertNewUserStory(Connection conn) {
+	/**
+	 * inserts a new employee to the database
+	 * @param conn the connection to the database
+	 */
+	public void insertNewEmployee(Connection conn) {
 		String sql = "INSERT INTO employee VALUES (?,?,?,?,?,?);";
 		try {
 			PreparedStatement ps = conn.prepareStatement(sql);

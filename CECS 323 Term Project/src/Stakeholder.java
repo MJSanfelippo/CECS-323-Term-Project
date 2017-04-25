@@ -7,19 +7,35 @@ import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 
 public class Stakeholder {
-	
+	/**
+	 * The id of the stakeholder
+	 */
 	private int id;
+	/**
+	 * The first name of the stakeholder
+	 */
 	private String firstName;
+	/**
+	 * The last name of the stakeholder
+	 */
 	private String lastName;
-	
+	/**
+	 * 
+	 * @param id id of the stakeholder
+	 * @param firstName first name of the stakeholder
+	 * @param lastName last name of the stakeholder
+	 */
 	public Stakeholder(int id, String firstName, String lastName){
 		this.id = id;
 		this.firstName = firstName;
 		this.lastName = lastName;
 	}
-
+	/**
+	 * Inserts a new stakeholder into the stakeholder table
+ 	 * @param conn the connection to the database
+ 	 */
 	public void insertNewStakeholder(Connection conn){
-		String stakeholderSQL = "INSERT INTO stakeholder VALUES (?,?,?);";
+		String stakeholderSQL = "INSERT INTO stakeholder VALUES (?,?,?);"; // simple sql query to insert into stakeholder table
 		try {
 			PreparedStatement ps = conn.prepareStatement(stakeholderSQL);
 			ps.setInt(1, id);
@@ -30,7 +46,10 @@ public class Stakeholder {
 			e.printStackTrace();
 		}
 	}
-	
+	/**
+	 * Ask the user for information on the stakeholder
+	 * @return a new stakeholder containing the info the user entered
+	 */
 	public static Stakeholder getStakeholderInsertInformation(){
 		Scanner in = new Scanner(System.in);
 		System.out.println("Please enter the stakeholder's ID: ");
@@ -41,6 +60,10 @@ public class Stakeholder {
 		String lastName = in.nextLine();
 		return new Stakeholder(id, firstName, lastName);
 	}
+	/**
+	 * This will list all stakeholders in the database
+	 * @param conn the connection to the database
+	 */
 	public static void listAllStakeholders(Connection conn){
 		String sql = "SELECT * FROM stakeholder";
 		try{
@@ -63,6 +86,10 @@ public class Stakeholder {
 			e.printStackTrace();
 		}
 	}
+	/**
+	 * This will delete a specific stakeholder based on the id the user enteres
+	 * @param conn the connection to the database
+	 */
 	public static void deleteStakeholder(Connection conn){
 		System.out.println("Please enter the id of the stakeholder you'd like to delete: ");
 		int id = Validator.checkInt();
@@ -75,6 +102,10 @@ public class Stakeholder {
 			ex.printStackTrace();
 		}
 	}
+	/**
+	 * This will show the menu to allow the user to enter what info they want to update about a stakeholder
+	 * @return
+	 */
 	public static int showUpdateMenu(){
 		System.out.println("What would you like to update?");
 		System.out.println("1. Stakeholder ID");
@@ -83,6 +114,10 @@ public class Stakeholder {
 		int choice = Validator.checkIntRange(1, 3);
 		return choice;
 	}
+	/**
+	 * This will update a stakeholder based on the stakeholder's id and one other attribute which is the one to be updated
+	 * @param conn the connection to the database
+	 */
 	public static void updateStakeholder(Connection conn){
 		@SuppressWarnings("resource")
 		Scanner in = new Scanner(System.in);

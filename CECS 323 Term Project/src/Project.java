@@ -6,24 +6,50 @@ import java.sql.SQLException;
 import java.util.Scanner;
 
 public class Project {
-
+	
+	/**
+	 * The project code, or its ID
+	 */
 	int projectCode;
+	/**
+	 * The start date of the project
+	 */
 	String startDate;
+	/**
+	 * The project's deadline
+	 */
 	String deadline;
+	/**
+	 * The name of the project
+	 */
 	String name;
-
+	/**
+	 * 
+	 * @param projectCode the id of the project
+	 * @param startDate the start date of the project
+	 * @param deadline the deadline of the project
+	 * @param name the name of the project
+	 */
 	public Project(int projectCode, String startDate, String deadline, String name) {
 		this.projectCode = projectCode;
 		this.startDate = startDate;
 		this.deadline = deadline;
 		this.name = name;
 	}
+	/**
+	 * The menu to update something about a project
+	 * @return the user's choice as to what to update about the project
+	 */
 	public int updateMenu(){
 		System.out.println("1. Deadline");
 		System.out.println("2. Name");
 		int choice = Validator.checkIntRange(1,2);
 		return choice;
 	}
+	/**
+	 * this will update a project based on the project's id and what the user wants to update about it
+	 * @param conn the connection to the datbaase
+	 */
 	public void updateProject(Connection conn){
 		@SuppressWarnings("resource")
 		Scanner in = new Scanner(System.in);
@@ -63,6 +89,10 @@ public class Project {
 			
 		}
 	}
+	/**
+	 * this will list all projects 
+	 * @param conn the connection to the database
+	 */
 	public static void listAllProjects(Connection conn){
 		String sql = "SELECT * FROM project";
 		try{
@@ -86,6 +116,10 @@ public class Project {
 			e.printStackTrace();
 		}
 	}
+	/**
+	 * this will insert a new project to the database
+	 * @param conn the connection to the database
+	 */
 	public void insertNewProject(Connection conn) {
 		String sql = "INSERT INTO project VALUES (?,?,?,?);";
 		try {
@@ -99,7 +133,10 @@ public class Project {
 			e.printStackTrace();
 		}
 	}
-
+	/**
+	 * This will get information about a project
+	 * @return the project the user has created
+	 */
 	public static Project getProjectInsertInformation() {
 		@SuppressWarnings("resource")
 		Scanner in = new Scanner(System.in);
