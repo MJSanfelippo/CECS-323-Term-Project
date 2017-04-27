@@ -74,7 +74,7 @@ public class StakeholderProject {
 				ps.execute();
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
-				e.printStackTrace();
+				CustomErrorMessages.printSQLException(e);
 			}
 			break;
 		case 2:
@@ -89,7 +89,7 @@ public class StakeholderProject {
 				ps.execute();
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
-				e.printStackTrace();
+				CustomErrorMessages.printSQLException(e);
 			}
 			break;
 			
@@ -144,7 +144,7 @@ public class StakeholderProject {
 				System.out.format("%15d%30d%30d%35s%32s%30s\n", stakeholderID, projectCode, interestLevel, firstName, lastName, type);
 			}
 		} catch(SQLException e){
-			e.printStackTrace();
+			CustomErrorMessages.printSQLException(e);
 		}
 	}
 	/**
@@ -178,7 +178,7 @@ public class StakeholderProject {
 			ps.setString(4, type);
 			ps.execute();
 		} catch (SQLException e) {
-			e.printStackTrace();
+			CustomErrorMessages.printSQLException(e);
 		}
 	}
 }

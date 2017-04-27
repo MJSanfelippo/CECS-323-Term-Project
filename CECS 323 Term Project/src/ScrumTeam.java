@@ -47,7 +47,7 @@ public class ScrumTeam {
 			ps.setString(2, teamName);
 			ps.execute();
 		} catch (SQLException e) {
-			e.printStackTrace();
+			CustomErrorMessages.printSQLException(e);
 		}
 	}
 }

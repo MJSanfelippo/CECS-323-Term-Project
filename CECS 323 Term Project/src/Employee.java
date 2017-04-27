@@ -50,6 +50,113 @@ public class Employee {
 		this.address = address;
 		this.zip = zip;
 	}
+	public static void deleteEmployee(Connection conn){
+		System.out.println("Please enter the employee's ID: ");
+		int id = Validator.checkInt();
+		String sql = "DELETE FROM employee WHERE employee.employeeID = ?;";
+		try{
+			PreparedStatement ps = conn.prepareStatement(sql);
+			ps.setInt(1, id);
+			ps.execute();
+		} catch(SQLException e){
+			CustomErrorMessages.printSQLException(e);
+		}
+	}
+	/**
+	 * Updates an employee's information based on user input
+	 * @param conn the connection to the database
+	 */
+	public static void updateEmployee(Connection conn){
+		@SuppressWarnings("resource")
+		Scanner in = new Scanner(System.in);
+		System.out.println("Please enter the employee's ID: ");
+		int id = Validator.checkInt();
+		String sql = "";
+		int choice = employeeUpdateMenu();
+		switch(choice){
+		case 1:
+			System.out.println("Please enter the employee's new first name: ");
+			String newFirstName = in.nextLine();
+			sql = "UPDATE employee SET employee.firstName = ? WHERE employee.employeeID = ?;";
+			try {
+				PreparedStatement ps = conn.prepareStatement(sql);
+				ps.setString(1, newFirstName);
+				ps.setInt(2, id);
+				ps.execute();
+			} catch (SQLException e) {
+				CustomErrorMessages.printSQLException(e);
+			}
+			break;
+		case 2:
+			System.out.println("Please enter the employee's new last name: ");
+			String newLastName = in.nextLine();
+			sql = "UPDATE employee SET employee.lastName = ? WHERE employee.employeeID = ?;";
+			try {
+				PreparedStatement ps = conn.prepareStatement(sql);
+				ps.setString(1, newLastName);
+				ps.setInt(2, id);
+				ps.execute();
+			} catch (SQLException e) {
+				CustomErrorMessages.printSQLException(e);
+			}
+			break;
+		case 3:
+			System.out.println("Please enter the employee's new title: ");
+			String newTitle = in.nextLine();
+			sql = "UPDATE employee SET employee.title = ? WHERE employee.employeeID = ?;";
+			try {
+				PreparedStatement ps = conn.prepareStatement(sql);
+				ps.setString(1, newTitle);
+				ps.setInt(2, id);
+				ps.execute();
+			} catch (SQLException e) {
+				CustomErrorMessages.printSQLException(e);
+			}
+			break;
+		case 4:
+			System.out.println("Please enter the employee's new address: ");
+			String newAddress = in.nextLine();
+			sql = "UPDATE employee SET employee.address = ? WHERE employee.employeeID = ?;";
+			try {
+				PreparedStatement ps = conn.prepareStatement(sql);
+				ps.setString(1, newAddress);
+				ps.setInt(2, id);
+				ps.execute();
+			} catch (SQLException e) {
+				CustomErrorMessages.printSQLException(e);
+			}
+			break;
+		case 5:
+			System.out.println("Please enter the employee's new zip code: ");
+			int newZip = Validator.checkInt();
+			sql = "UPDATE employee SET employee.zip = ? WHERE employee.employeeID = ?;";
+			try {
+				PreparedStatement ps = conn.prepareStatement(sql);
+				ps.setInt(1, newZip);
+				ps.setInt(2, id);
+				ps.execute();
+			} catch (SQLException e) {
+				CustomErrorMessages.printSQLException(e);
+			}
+			break;
+		default:
+			break;
+			
+		}
+	}
+	/**
+	 * displays the employee update menu
+	 * @return the user's choice on what to update
+	 */
+	public static int employeeUpdateMenu(){
+		System.out.println("1. Update first name");
+		System.out.println("2. Update last name");
+		System.out.println("3. Update employee title");
+		System.out.println("4. Update employee address");
+		System.out.println("5. Update employee zip");
+		int choice = Validator.checkIntRange(1, 5);
+		return choice;
+	}
 	/**
 	 * lists all employees that are software engineers or developers
 	 * @param conn the connection to the database

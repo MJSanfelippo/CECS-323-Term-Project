@@ -43,7 +43,7 @@ public class Stakeholder {
 			ps.setString(3, lastName);
 			ps.execute();
 		} catch (SQLException e) {
-			e.printStackTrace();
+			CustomErrorMessages.printSQLException(e);
 		}
 	}
 	/**
@@ -83,7 +83,7 @@ public class Stakeholder {
 				System.out.format("%15d%32s%33s\n", stakeholderID, firstName, lastName);
 			}
 		} catch(SQLException e){
-			e.printStackTrace();
+			CustomErrorMessages.printSQLException(e);
 		}
 	}
 	/**
@@ -93,7 +93,7 @@ public class Stakeholder {
 	public static void deleteStakeholder(Connection conn){
 		System.out.println("Please enter the id of the stakeholder you'd like to delete: ");
 		int id = Validator.checkInt();
-		String sql = "DELETE FROM stakeholder WHERE stakeholder.id = ?";
+		String sql = "DELETE FROM stakeholder WHERE stakeholder.stakeholderID = ?";
 		try{
 			PreparedStatement ps = conn.prepareStatement(sql);
 			ps.setInt(1, id);
@@ -142,7 +142,7 @@ public class Stakeholder {
 				ps.execute();
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
-				e.printStackTrace();
+				CustomErrorMessages.printSQLException(e);
 			}
 			break;
 		case 2:
@@ -155,7 +155,7 @@ public class Stakeholder {
 				ps.setInt(2, id);
 				ps.execute();
 			} catch(SQLException e){
-				e.printStackTrace();
+				CustomErrorMessages.printSQLException(e);
 			}
 			break;
 		case 3: 
@@ -168,7 +168,7 @@ public class Stakeholder {
 				ps.setInt(2, id);
 				ps.execute();
 			} catch(SQLException e){
-				e.printStackTrace();
+				CustomErrorMessages.printSQLException(e);
 			}
 			break;
 		}

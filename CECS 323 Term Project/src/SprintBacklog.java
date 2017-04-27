@@ -77,7 +77,7 @@ public class SprintBacklog {
 				System.out.format("%5d%35s%30d%30s%30s%40s%23s\n", userStoryID, progress, priority, asA, IwantTo, becauseSoThat, userClass);
 			}
 		} catch(SQLException e){
-			e.printStackTrace();
+			CustomErrorMessages.printSQLException(e);
 		}
 	}
 	/**
@@ -97,7 +97,7 @@ public class SprintBacklog {
 			ps.execute();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			CustomErrorMessages.printSQLException(e);
 		}
 	}
 	/**
@@ -136,7 +136,7 @@ public class SprintBacklog {
 				ps.execute();
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
-				e.printStackTrace();
+				CustomErrorMessages.printSQLException(e);
 			}
 			break;
 		case 2:
@@ -151,7 +151,7 @@ public class SprintBacklog {
 				ps.execute();
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
-				e.printStackTrace();
+				CustomErrorMessages.printSQLException(e);
 			}
 			break;
 		}
@@ -191,7 +191,7 @@ public class SprintBacklog {
 			ps.setInt(5, sprintPriority);
 			ps.execute();
 		} catch (SQLException e) {
-			e.printStackTrace();
+			CustomErrorMessages.printSQLException(e);
 		}
 	}
 	

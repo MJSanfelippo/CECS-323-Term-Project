@@ -85,7 +85,7 @@ public class ProjectBacklog {
 			ps.setString(4, creationDate);
 			ps.execute();
 		} catch (SQLException e) {
-			e.printStackTrace();
+			CustomErrorMessages.printSQLException(e);
 		}
 	}
 }

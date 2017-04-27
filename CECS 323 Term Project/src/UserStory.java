@@ -74,7 +74,7 @@ public class UserStory {
 			ps.setString(5, type);
 			ps.execute();
 		} catch (SQLException e) {
-			e.printStackTrace();
+			CustomErrorMessages.printSQLException(e);
 		}
 	}
 }

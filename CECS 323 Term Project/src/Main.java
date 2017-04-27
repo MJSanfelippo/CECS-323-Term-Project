@@ -13,7 +13,7 @@ public class Main {
 	/**
 	 * The url to connect to the database
 	 */
-	private String dbURL = "jdbc:mysql://192.168.62.130:3306/Dummy323?" + "user=cecs323b&password=cecs323";
+	private String dbURL = "jdbc:mysql://cecs-db01.coe.csulb.edu:3306/cecs323h24?" + "user=cecs323h24&password=le0ao2";
 	/**
 	 * the connection to the database, initially set to null
 	 */
@@ -27,7 +27,16 @@ public class Main {
 	 * @param args the command-line arguments (none)
 	 */
 	public static void main(String[] args){
-		new Main().run();
+		//new Main().run();
+		Main m = new Main();
+		m.createConnection();
+		try {
+			m.insertZips();
+		} catch (SQLException | IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		m.shutDown();
 	}
 	/**
 	 * This will create the connection, display the main menu and handle whatever choice the user chooses
@@ -66,6 +75,15 @@ public class Main {
 				listAllDevelopersInASprint();
 				break;
 			case 10:
+				EmployeeScrumTeam.listAllEmployeeScrumTeam(conn);
+				break;
+			case 11:
+				runCRUDProjects(displayProjectMenu());
+				break;
+			case 12:
+				runCRUDEmployees(displayEmployeeMenu());
+				break;
+			case 13:
 				running = false;
 				break;
 			default:
@@ -73,6 +91,71 @@ public class Main {
 			}
 		}
 		shutDown();
+	}
+	public void runCRUDEmployees(int choice){
+		switch(choice){
+		case 1:
+			Employee e = Employee.getEmployeeInsertInformation();
+			e.insertNewEmployee(conn);
+			break;
+		case 2:
+			Employee.updateEmployee(conn);
+			break;
+		case 3:
+			Employee.listEmployee(conn);
+			break;
+		case 4:
+			Employee.deleteEmployee(conn);
+			break;
+		default:
+			break;
+		}
+	}
+	/**
+	 * Display the menu for CRUD operations on employees
+	 * @return the user's choice
+	 */
+	public int displayEmployeeMenu(){
+		System.out.println("1. Add a new employee");
+		System.out.println("2. Update an employee");
+		System.out.println("3. List all employees");
+		System.out.println("4. Delete an employee");
+		System.out.println("5. Back to main menu");
+		int choice = Validator.checkIntRange(1,5);
+		return choice;
+		
+	}
+	/**
+	 * runs whatever choice the user chose for crud operations on projects
+	 * @param choice the user's choice
+	 */
+	public void runCRUDProjects(int choice){
+		switch(choice){
+		case 1:
+			Project p = Project.getProjectInsertInformation();
+			p.insertNewProject(conn);
+			break;
+		case 2:
+			Project.updateProject(conn);
+			break;
+		case 3:
+			Project.listAllProjects(conn);
+			break;
+		default:
+			break;
+		}
+	}
+	/**
+	 * menu to display options for projects
+	 * @return the user's choice
+	 */
+	public int displayProjectMenu(){
+		System.out.println("1. Add a new project");
+		System.out.println("2. Update an existing project");
+		System.out.println("3. List all projects");
+		System.out.println("4. Back to main menu");
+		int choice = Validator.checkIntRange(1, 4);
+		return choice;
 	}
 	/**
 	 * This will run whatever choice the user made for crud operations with user stories to the project backlog
@@ -304,8 +387,11 @@ public class Main {
 		System.out.println("7. List all developers");
 		System.out.println("8. List all sprints");
 		System.out.println("9. List all developers that are part of a sprint");
-		System.out.println("10. Quit");
-		int choice = Validator.checkIntRange(1, 10);
+		System.out.println("10. Display all employees that are part of a scrum team");
+		System.out.println("11. CRUD Operations for Projects");
+		System.out.println("12. CRUD Operations for employees");
+		System.out.println("13. Quit");
+		int choice = Validator.checkIntRange(1, 13);
 		return choice;
 	}
 	public Connection getConnection(){

@@ -40,7 +40,7 @@ public class Project {
 	 * The menu to update something about a project
 	 * @return the user's choice as to what to update about the project
 	 */
-	public int updateMenu(){
+	public static int updateMenu(){
 		System.out.println("1. Deadline");
 		System.out.println("2. Name");
 		int choice = Validator.checkIntRange(1,2);
@@ -50,7 +50,7 @@ public class Project {
 	 * this will update a project based on the project's id and what the user wants to update about it
 	 * @param conn the connection to the datbaase
 	 */
-	public void updateProject(Connection conn){
+	public static void updateProject(Connection conn){
 		@SuppressWarnings("resource")
 		Scanner in = new Scanner(System.in);
 		System.out.println("Please enter the ID of the project you'd like to update: ");
@@ -69,7 +69,7 @@ public class Project {
 				ps.execute();
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
-				e.printStackTrace();
+				CustomErrorMessages.printSQLException(e);
 			}
 			break;
 		case 2:
@@ -83,7 +83,7 @@ public class Project {
 				ps.execute();
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
-				e.printStackTrace();
+				CustomErrorMessages.printSQLException(e);
 			}
 			break;
 			
@@ -113,7 +113,7 @@ public class Project {
 				System.out.format("%15d%43s%47s%25s\n", projectCode, startDate, name, deadline);
 			}
 		} catch(SQLException e){
-			e.printStackTrace();
+			CustomErrorMessages.printSQLException(e);
 		}
 	}
 	/**
@@ -130,7 +130,7 @@ public class Project {
 			ps.setString(4, name);
 			ps.execute();
 		} catch (SQLException e) {
-			e.printStackTrace();
+			CustomErrorMessages.printSQLException(e);
 		}
 	}
 	/**

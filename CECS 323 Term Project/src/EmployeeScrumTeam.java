@@ -47,7 +47,7 @@ public class EmployeeScrumTeam {
 			ps.setInt(2, teamNumber);
 			ps.execute();
 		} catch (SQLException e) {
-			e.printStackTrace();
+			CustomErrorMessages.printSQLException(e);
 		}
 		
 	}
@@ -64,7 +64,7 @@ public class EmployeeScrumTeam {
 			ps.setBoolean(3, isTeamLead);
 			ps.execute();
 		} catch (SQLException e) {
-			e.printStackTrace();
+			CustomErrorMessages.printSQLException(e);
 		}
 	}
 	/**
@@ -87,7 +87,8 @@ public class EmployeeScrumTeam {
 	 * @param conn
 	 */
 	public static void listAllEmployeeScrumTeam(Connection conn){
-		String sql = "SELECT * FROM employee_scrumTeam";
+		String sql = "SELECT employee.employeeID, concat(employee.firstName, ' ', employee.lastName) AS name, scrum_team.teamName FROM employee INNER JOIN employee_scrumTeam " 
+	+"ON employee.employeeID = employee_scrumTeam.employeeID INNER JOIN scrum_team ON employee_scrumTeam.teamNum = scrum_team.teamNum;";
 		try{
 			PreparedStatement ps = conn.prepareStatement(sql);
 			ResultSet results = ps.executeQuery();
@@ -100,12 +101,13 @@ public class EmployeeScrumTeam {
 					"\n-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------");
 			while (results.next()) {
 				int employeeID = results.getInt(1);
-				int teamNumber = results.getInt(2);
+				String name = results.getString(2);
+				String teamName = results.getString(3);
 				boolean isTeamLead = results.getBoolean(3);
-				System.out.format("%15d%30d%25s\n", employeeID, teamNumber, isTeamLead);
+				System.out.format("%15d%30s%25s\n", employeeID, name, teamName);
 			}
 		} catch(SQLException e){
-			e.printStackTrace();
+			CustomErrorMessages.printSQLException(e);
 		}
 	}
 }
