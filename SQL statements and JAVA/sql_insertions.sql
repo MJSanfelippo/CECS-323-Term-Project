@@ -10,7 +10,7 @@ INSERT INTO project VALUES (1, '2017-04-22', '2018-05-23', 'CECS 323 Database Pr
 INSERT INTO project VALUES (2, '2017-04-25', '2019-03-23', 'CECS 277 Java Project');
 INSERT INTO project VALUES (3, '2016-03-05', '2020-09-11', 'CECS 201 Engineering Project');
 
-INSERT INTO project_backlog VALUES (1, 1, 1, 'Create and populate the database', '2017-04-22');
+INSERT INTO project_backlog VALUES (1, 1, 'Create and populate the database', '2017-04-22');
 
 INSERT INTO scrum_team VALUES (1, 'CLG');
 INSERT INTO scrum_team VALUES (3, 'Cloud 9');
