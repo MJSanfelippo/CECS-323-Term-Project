@@ -1,10 +1,12 @@
+USE cecs323h24;
+
 -- ON INSERT
 
 DROP TRIGGER IF EXISTS `cecs323h24`.`employee_BEFORE_INSERT`;
 
 DELIMITER $$
 USE `cecs323h24`$$
-CREATE DEFINER = `cecs323h24`@`cecs-db01.coe.csulb.edu` TRIGGER `cecs323h24`.`employee_BEFORE_INSERT` BEFORE INSERT ON `employee` FOR EACH ROW
+CREATE DEFINER = CURRENT_USER TRIGGER `cecs323h24`.`employee_BEFORE_INSERT` BEFORE INSERT ON `employee` FOR EACH ROW
 BEGIN  
     IF NEW.zip NOT IN (SELECT zipcode.zip FROM zipcode WHERE zipcode.zip = NEW.zip) THEN
        SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Zip code does not exist in database.'; 
@@ -16,7 +18,7 @@ DROP TRIGGER IF EXISTS `cecs323h24`.`employee_project_BEFORE_INSERT`;
 
 DELIMITER $$
 USE `cecs323h24`$$
-CREATE DEFINER = `cecs323h24`@`cecs-db01.coe.csulb.edu` TRIGGER `cecs323h24`.`employee_project_BEFORE_INSERT` BEFORE INSERT ON `employee_project` FOR EACH ROW
+CREATE DEFINER = CURRENT_USER TRIGGER `cecs323h24`.`employee_project_BEFORE_INSERT` BEFORE INSERT ON `employee_project` FOR EACH ROW
 BEGIN
      IF NEW.projectCode NOT IN (SELECT project.projectCode FROM project WHERE project.projectCode = NEW.projectCode) THEN
 		SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Project does not exist. Please check project code and try again.'; 
@@ -26,11 +28,11 @@ BEGIN
 END$$
 DELIMITER ;
 
-DROP TRIGGER IF EXISTS `cecs323h24`.`employee_scrumteam_BEFORE_INSERT`;
+DROP TRIGGER IF EXISTS `cecs323h24`.`employee_scrumTeam_BEFORE_INSERT`;
 
 DELIMITER $$
 USE `cecs323h24`$$
-CREATE DEFINER=`cecs323h24`@`cecs-db01.coe.csulb.edu` TRIGGER `cecs323h24`.`employee_scrumteam_BEFORE_INSERT` BEFORE INSERT ON `employee_scrumteam` FOR EACH ROW
+CREATE DEFINER=CURRENT_USER TRIGGER `cecs323h24`.`employee_scrumTeam_BEFORE_INSERT` BEFORE INSERT ON `employee_scrumTeam` FOR EACH ROW
 BEGIN
 	
     DECLARE tl VARCHAR(30); 
@@ -49,9 +51,9 @@ DROP TRIGGER IF EXISTS `cecs323h24`.`project_backlog_BEFORE_INSERT`;
 
 DELIMITER $$
 USE `cecs323h24`$$
-CREATE DEFINER = `cecs323h24`@`cecs-db01.coe.csulb.edu` TRIGGER `cecs323h24`.`project_backlog_BEFORE_INSERT` BEFORE INSERT ON `project_backlog` FOR EACH ROW
+CREATE DEFINER = CURRENT_USER TRIGGER `cecs323h24`.`project_backlog_BEFORE_INSERT` BEFORE INSERT ON `project_backlog` FOR EACH ROW
 BEGIN
-	IF NEW.userstoryID NOT IN (SELECT userstory.userstoryID FROM userstory WHERE userstory.userstoryID = NEW.userstoryID) THEN
+	IF NEW.userstoryID NOT IN (SELECT userStory.userstoryID FROM userStory WHERE userStory.userstoryID = NEW.userstoryID) THEN
 		SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'User story does not exist.'; 
 	ELSEIF NEW.projectCode NOT IN (SELECT project.projectCode FROM project WHERE project.projectCode = NEW.projectCode) THEN
 		SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Project does not exist.'; 
@@ -63,9 +65,9 @@ DROP TRIGGER IF EXISTS `cecs323h24`.`task_BEFORE_INSERT`;
 
 DELIMITER $$
 USE `cecs323h24`$$
-CREATE DEFINER = `cecs323h24`@`cecs-db01.coe.csulb.edu` TRIGGER `cecs323h24`.`task_BEFORE_INSERT` BEFORE INSERT ON `task` FOR EACH ROW
+CREATE DEFINER = CURRENT_USER TRIGGER `cecs323h24`.`task_BEFORE_INSERT` BEFORE INSERT ON `task` FOR EACH ROW
 BEGIN
-	IF NEW.userStoryID NOT IN (SELECT userstory.userStoryID FROM userstory WHERE userstory.userStoryID=NEW.userStoryID) THEN
+	IF NEW.userStoryID NOT IN (SELECT userStory.userStoryID FROM userStory WHERE userStory.userStoryID=NEW.userStoryID) THEN
     SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Invalid user story.';
     END IF;
 END$$
@@ -76,7 +78,7 @@ DROP TRIGGER IF EXISTS `cecs323h24`.`stakeholder_project_BEFORE_INSERT`;
 
 DELIMITER $$
 USE `cecs323h24`$$
-CREATE DEFINER = `cecs323h24`@`cecs-db01.coe.csulb.edu` TRIGGER `cecs323h24`.`stakeholder_project_BEFORE_INSERT` BEFORE INSERT ON `stakeholder_project` FOR EACH ROW
+CREATE DEFINER = CURRENT_USER TRIGGER `cecs323h24`.`stakeholder_project_BEFORE_INSERT` BEFORE INSERT ON `stakeholder_project` FOR EACH ROW
 BEGIN
 	IF NEW.stakeholderID NOT IN (SELECT stakeholder.stakeholderID FROM stakeholder WHERE stakeholder.stakeholderID = NEW.stakeholderID) THEN
 		SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Not a valid stake holder'; 
@@ -88,9 +90,9 @@ DROP TRIGGER IF EXISTS `cecs323h24`.`sprint_backlog_BEFORE_INSERT`;
 
 DELIMITER $$
 USE `cecs323h24`$$
-CREATE DEFINER = `cecs323h24`@`cecs-db01.coe.csulb.edu` TRIGGER `cecs323h24`.`sprint_backlog_BEFORE_INSERT` BEFORE INSERT ON `sprint_backlog` FOR EACH ROW
+CREATE DEFINER = CURRENT_USER TRIGGER `cecs323h24`.`sprint_backlog_BEFORE_INSERT` BEFORE INSERT ON `sprint_backlog` FOR EACH ROW
 BEGIN
-	IF NEW.userstoryID NOT IN (SELECT userstory.userstoryID FROM userstory WHERE userstory.userstoryID = NEW.userstoryID) THEN
+	IF NEW.userstoryID NOT IN (SELECT userStory.userstoryID FROM userStory WHERE userStory.userstoryID = NEW.userstoryID) THEN
 		SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Not a valid user story.'; 
     END IF;
 END$$
@@ -101,9 +103,9 @@ DROP TRIGGER IF EXISTS `cecs323h24`.`sprint_BEFORE_INSERT`;
 
 DELIMITER $$
 USE `cecs323h24`$$
-CREATE DEFINER = `cecs323h24`@`cecs-db01.coe.csulb.edu` TRIGGER `cecs323h24`.`sprint_BEFORE_INSERT` BEFORE INSERT ON `sprint` FOR EACH ROW
+CREATE DEFINER = CURRENT_USER TRIGGER `cecs323h24`.`sprint_BEFORE_INSERT` BEFORE INSERT ON `sprint` FOR EACH ROW
 BEGIN
-	IF NEW.teamNum NOT IN (SELECT employee_scrumteam.teamNum FROM employee_scrumteam WHERE employee_scrumteam.teamNum = NEW.teamNum) THEN
+	IF NEW.teamNum NOT IN (SELECT employee_scrumTeam.teamNum FROM employee_scrumTeam WHERE employee_scrumTeam.teamNum = NEW.teamNum) THEN
 		SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Not a valid team.'; 
     ELSEIF NEW.projectCode NOT IN (SELECT project.projectCode FROM project WHERE project.projectCode = NEW.projectCode) THEN
 		SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Not an active project'; 
@@ -116,11 +118,11 @@ DELIMITER ;
 
 --  ON UPDATE
 
-DROP TRIGGER IF EXISTS `cecs323h24`.`employee_scrumteam_BEFORE_UPDATE`;
+DROP TRIGGER IF EXISTS `cecs323h24`.`employee_scrumTeam_BEFORE_UPDATE`;
 
 DELIMITER $$
 USE `cecs323h24`$$
-CREATE DEFINER = `cecs323h24`@`cecs-db01.coe.csulb.edu` TRIGGER `cecs323h24`.`employee_scrumteam_BEFORE_UPDATE` BEFORE UPDATE ON `employee_scrumteam` FOR EACH ROW
+CREATE DEFINER = CURRENT_USER TRIGGER `cecs323h24`.`employee_scrumTeam_BEFORE_UPDATE` BEFORE UPDATE ON `employee_scrumTeam` FOR EACH ROW
 BEGIN
     DECLARE tl VARCHAR(30); 
     
@@ -134,11 +136,11 @@ BEGIN
 END$$
 DELIMITER ;
 
-DROP TRIGGER IF EXISTS `cecs323h24`.`employee_scrumteam_BEFORE_UPDATE`;
+DROP TRIGGER IF EXISTS `cecs323h24`.`employee_scrumTeam_BEFORE_UPDATE`;
 
 DELIMITER $$
 USE `cecs323h24`$$
-CREATE DEFINER = `cecs323h24`@`cecs-db01.coe.csulb.edu` TRIGGER `cecs323h24`.`employee_scrumteam_BEFORE_UPDATE` BEFORE UPDATE ON `employee_scrumteam` FOR EACH ROW
+CREATE DEFINER = CURRENT_USER TRIGGER `cecs323h24`.`employee_scrumTeam_BEFORE_UPDATE` BEFORE UPDATE ON `employee_scrumTeam` FOR EACH ROW
 BEGIN
 DECLARE tl VARCHAR(30); 
     
@@ -156,7 +158,7 @@ DROP TRIGGER IF EXISTS `cecs323h24`.`employee_BEFORE_UPDATE`;
 
 DELIMITER $$
 USE `cecs323h24`$$
-CREATE DEFINER = `cecs323h24`@`cecs-db01.coe.csulb.edu` TRIGGER `cecs323h24`.`employee_BEFORE_UPDATE` BEFORE UPDATE ON `employee` FOR EACH ROW
+CREATE DEFINER = CURRENT_USER TRIGGER `cecs323h24`.`employee_BEFORE_UPDATE` BEFORE UPDATE ON `employee` FOR EACH ROW
 BEGIN
 	IF NEW.zip NOT IN (SELECT zipcode.zip FROM zipcode WHERE zipcode.zip = NEW.zip) THEN
        SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Zip code does not exist in database.'; 
@@ -168,7 +170,7 @@ DROP TRIGGER IF EXISTS `cecs323h24`.`employee_project_BEFORE_UPDATE`;
 
 DELIMITER $$
 USE `cecs323h24`$$
-CREATE DEFINER = `cecs323h24`@`cecs-db01.coe.csulb.edu` TRIGGER `cecs323h24`.`employee_project_BEFORE_UPDATE` BEFORE UPDATE ON `employee_project` FOR EACH ROW
+CREATE DEFINER = CURRENT_USER TRIGGER `cecs323h24`.`employee_project_BEFORE_UPDATE` BEFORE UPDATE ON `employee_project` FOR EACH ROW
 BEGIN
 	IF NEW.projectCode NOT IN (SELECT project.projectCode FROM project WHERE project.projectCode = NEW.projectCode) THEN
 		SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Project does not exist. Please check project code and try again.'; 
@@ -182,9 +184,9 @@ DROP TRIGGER IF EXISTS `cecs323h24`.`sprint_BEFORE_UPDATE`;
 
 DELIMITER $$
 USE `cecs323h24`$$
-CREATE DEFINER=`cecs323h24`@`cecs-db01.coe.csulb.edu` TRIGGER `cecs323h24`.`sprint_BEFORE_UPDATE` BEFORE UPDATE ON `sprint` FOR EACH ROW
+CREATE DEFINER=CURRENT_USER TRIGGER `cecs323h24`.`sprint_BEFORE_UPDATE` BEFORE UPDATE ON `sprint` FOR EACH ROW
 BEGIN
-	IF NEW.teamNum NOT IN (SELECT employee_scrumteam.teamNum FROM employee_scrumteam WHERE employee_scrumteam.teamNum = NEW.teamNum) THEN
+	IF NEW.teamNum NOT IN (SELECT employee_scrumTeam.teamNum FROM employee_scrumTeam WHERE employee_scrumTeam.teamNum = NEW.teamNum) THEN
 		SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Not a valid team.'; 
     ELSEIF NEW.projectCode NOT IN (SELECT project.projectCode FROM project WHERE project.projectCode = NEW.projectCode) THEN
 		SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Not an active project'; 
@@ -201,9 +203,9 @@ DROP TRIGGER IF EXISTS `cecs323h24`.`sprint_backlog_BEFORE_UPDATE`;
 
 DELIMITER $$
 USE `cecs323h24`$$
-CREATE DEFINER = `cecs323h24`@`cecs-db01.coe.csulb.edu` TRIGGER `cecs323h24`.`sprint_backlog_BEFORE_UPDATE` BEFORE UPDATE ON `sprint_backlog` FOR EACH ROW
+CREATE DEFINER = CURRENT_USER TRIGGER `cecs323h24`.`sprint_backlog_BEFORE_UPDATE` BEFORE UPDATE ON `sprint_backlog` FOR EACH ROW
 BEGIN
-	IF NEW.userstoryID NOT IN (SELECT userstory.userstoryID FROM userstory WHERE userstory.userstoryID = NEW.userstoryID) THEN
+	IF NEW.userstoryID NOT IN (SELECT userStory.userstoryID FROM userStory WHERE userStory.userstoryID = NEW.userstoryID) THEN
 		SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Not a valid user story.'; 
     END IF;
 END$$
@@ -213,7 +215,7 @@ DROP TRIGGER IF EXISTS `cecs323h24`.`stakeholder_project_BEFORE_UPDATE`;
 
 DELIMITER $$
 USE `cecs323h24`$$
-CREATE DEFINER = `cecs323h24`@`cecs-db01.coe.csulb.edu` TRIGGER `cecs323h24`.`stakeholder_project_BEFORE_UPDATE` BEFORE UPDATE ON `stakeholder_project` FOR EACH ROW
+CREATE DEFINER = CURRENT_USER TRIGGER `cecs323h24`.`stakeholder_project_BEFORE_UPDATE` BEFORE UPDATE ON `stakeholder_project` FOR EACH ROW
 BEGIN
 	IF NEW.stakeholderID NOT IN (SELECT stakeholder.stakeholderID FROM stakeholder WHERE stakeholder.stakeholderID = NEW.stakeholderID) THEN
 		SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Not a valid stake holder'; 
@@ -225,9 +227,9 @@ DROP TRIGGER IF EXISTS `cecs323h24`.`task_BEFORE_UPDATE`;
 
 DELIMITER $$
 USE `cecs323h24`$$
-CREATE DEFINER=`cecs323h24`@`cecs-db01.coe.csulb.edu` TRIGGER `cecs323h24`.`task_BEFORE_UPDATE` BEFORE UPDATE ON `task` FOR EACH ROW
+CREATE DEFINER=CURRENT_USER TRIGGER `cecs323h24`.`task_BEFORE_UPDATE` BEFORE UPDATE ON `task` FOR EACH ROW
 BEGIN
-	IF NEW.userStoryID NOT IN (SELECT userstory.userStoryID FROM userstory WHERE userstory.userStoryID=NEW.userStoryID) THEN
+	IF NEW.userStoryID NOT IN (SELECT userStory.userStoryID FROM userStory WHERE userStory.userStoryID=NEW.userStoryID) THEN
 	SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Project does not exist.';
     END IF;
 END$$
@@ -237,9 +239,9 @@ DROP TRIGGER IF EXISTS `cecs323h24`.`userstory_BEFORE_INSERT`;
 
 DELIMITER $$
 USE `cecs323h24`$$
-CREATE DEFINER = `cecs323h24`@`cecs-db01.coe.csulb.edu` TRIGGER `cecs323h24`.`userstory_BEFORE_INSERT` BEFORE INSERT ON `userstory` FOR EACH ROW
+CREATE DEFINER = CURRENT_USER TRIGGER `cecs323h24`.`userstory_BEFORE_INSERT` BEFORE INSERT ON `userStory` FOR EACH ROW
 BEGIN
-	IF NEW.userStoryID NOT IN (SELECT userstory.userStoryID FROM userstory WHERE userstory.userStoryID = NEW.userStoryID)
+	IF NEW.userStoryID NOT IN (SELECT userStory.userStoryID FROM userStory WHERE userStory.userStoryID = NEW.userStoryID)
     THEN
 		SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'User story already exists.'; 
     END IF;
@@ -251,9 +253,9 @@ DROP TRIGGER IF EXISTS `cecs323h24`.`userstory_BEFORE_UPDATE`;
 
 DELIMITER $$
 USE `cecs323h24`$$
-CREATE DEFINER=`cecs323h24`@`cecs-db01.coe.csulb.edu` TRIGGER `cecs323h24`.`userstory_BEFORE_UPDATE` BEFORE UPDATE ON `userstory` FOR EACH ROW
+CREATE DEFINER=CURRENT_USER TRIGGER `cecs323h24`.`userstory_BEFORE_UPDATE` BEFORE UPDATE ON `userStory` FOR EACH ROW
 BEGIN
-	IF NEW.userStoryID IN (SELECT sprint.sprintNum FROM sprint INNER JOIN sprint_backlog ON sprint_backlog.sprintNum = sprint_backlog.sprintNum INNER JOIN userstory ON sprint_backlog.userStoryID = NEW.userStoryID)
+	IF NEW.userStoryID IN (SELECT sprint.sprintNum FROM sprint INNER JOIN sprint_backlog ON sprint_backlog.sprintNum = sprint_backlog.sprintNum INNER JOIN userStory ON sprint_backlog.userStoryID = NEW.userStoryID)
     THEN
 	SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Cannot update. User story is a part of an active sprint.'; 
     END IF;
@@ -264,7 +266,7 @@ DROP TRIGGER IF EXISTS `cecs323h24`.`stakeholder_BEFORE_INSERT`;
 
 DELIMITER $$
 USE `cecs323h24`$$
-CREATE DEFINER = `cecs323h24`@`cecs-db01.coe.csulb.edu` TRIGGER `cecs323h24`.`stakeholder_BEFORE_INSERT` BEFORE INSERT ON `stakeholder` FOR EACH ROW
+CREATE DEFINER = CURRENT_USER TRIGGER `cecs323h24`.`stakeholder_BEFORE_INSERT` BEFORE INSERT ON `stakeholder` FOR EACH ROW
 BEGIN
 	IF NEW.stakeholderID IN (SELECT stakeholder.stakeholderID FROM stakeholder WHERE stakeholder.stakeholderID = NEW.stakeholderID)
     THEN
@@ -272,4 +274,3 @@ BEGIN
     END IF;
 END$$
 DELIMITER ;
-
